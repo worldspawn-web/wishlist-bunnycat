@@ -3,13 +3,15 @@
 import React from 'react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-export default function Auth({ params }: { params: Promise<{ type: string }> }) {
-  const { type } = React.use(params);
+export default function Auth({ params }: { params: { type: string } }) {
   const [password, setPassword] = useState('');
   const router = useRouter();
+  // @ts-expect-error - Sorry but that's TypeScript moment. Will have to re-factor later.
+  const { type } = React.use(params);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,8 +23,11 @@ export default function Auth({ params }: { params: Promise<{ type: string }> }) 
     }
   };
 
+  const iconSrc = type === 'cat' ? '/black-cat.png' : '/bunny.png';
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
+      <Image src={iconSrc} alt={type === 'cat' ? 'Чёрный кот' : 'Зайка'} width={128} height={128} className="mb-8" />
       <h1 className="text-4xl font-bold mb-8">Введите пароль для {type === 'cat' ? 'кота' : 'зайки'}</h1>
       <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
         <Input
