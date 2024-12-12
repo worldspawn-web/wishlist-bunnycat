@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
+import AnimatedBackground from '@/components/AnimatedBackground';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import AnimatedBackground from '@/components/AnimatedBackground';
 
 export default function Auth({ params }: { params: { type: string } }) {
   const [password, setPassword] = useState('');

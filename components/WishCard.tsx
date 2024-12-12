@@ -1,10 +1,12 @@
-import { useState } from 'react';
 import Image from 'next/image';
+
+import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Wish } from '@/types/wish';
+
 import ConfirmModal from './ConfirmModal';
 
 interface WishCardProps {

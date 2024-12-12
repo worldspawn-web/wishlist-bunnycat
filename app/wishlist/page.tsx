@@ -1,11 +1,11 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import WishCard from '@/components/WishCard';
 import AddWishModal from '@/components/AddWishModal';
 import StatsPanel from '@/components/StatsPanel';
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Wish, WishCategory, Stats } from '@/types/wish';
 
 const initialWishes: Wish[] = [

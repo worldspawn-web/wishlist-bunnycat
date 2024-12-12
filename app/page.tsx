@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
+import AnimatedBackground from '@/components/AnimatedBackground';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import AnimatedBackground from '@/components/AnimatedBackground';
 
 export default function Home() {
   const router = useRouter();
