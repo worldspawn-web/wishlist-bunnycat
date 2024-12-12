@@ -23,6 +23,12 @@ const categoryEmoji: Record<Wish['category'], string> = {
   Другое: '🎁',
 };
 
+const platformGradients: Record<string, { gradient: string; textColor: string }> = {
+  wildberries: { gradient: 'bg-gradient-to-r from-purple-600 to-pink-500', textColor: 'text-white' },
+  ozon: { gradient: 'bg-gradient-to-r from-blue-600 to-blue-300', textColor: 'text-white' },
+  market: { gradient: 'bg-gradient-to-r from-yellow-400 to-yellow-200', textColor: 'text-black' },
+};
+
 export default function WishCard({ wish, onComplete, onUncomplete, currentUser }: WishCardProps) {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [modalAction, setModalAction] = useState<'complete' | 'uncomplete'>('complete');
@@ -89,9 +95,19 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
             {categoryEmoji[wish.category]} {wish.category}
           </Badge>
         </div>
-        {wish.platform && (
-          <div className="flex items-center mb-2">
-            <Image src={`/${wish.platform}.png`} alt={wish.platform} width={24} height={24} />
+        {wish.platform && platformGradients[wish.platform] && (
+          <div className="flex flex-wrap gap-2 mb-2">
+            <Badge
+              className={`${platformGradients[wish.platform].gradient} ${platformGradients[wish.platform].textColor}`}
+            >
+              {wish.platform === 'market'
+                ? 'Яндекс.Маркет'
+                : wish.platform === 'wildberries'
+                ? 'Wildberries'
+                : wish.platform === 'ozon'
+                ? 'Ozon'
+                : wish.platform}
+            </Badge>
           </div>
         )}
         {wish.comment && (
