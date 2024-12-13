@@ -1,11 +1,14 @@
-import { useState } from 'react';
 import Image from 'next/image';
+import ConfirmModal from './ConfirmModal';
+import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Wish } from '@/types/wish';
-import ConfirmModal from './ConfirmModal';
+import { categoryEmoji } from '@/constants/categoryEmoji';
+import { platformGradients } from '@/constants/platformGradients';
+import { formatDate } from '@/utils/dateUtils';
 
 interface WishCardProps {
   wish: Wish;
@@ -13,22 +16,6 @@ interface WishCardProps {
   onUncomplete: (id: string) => void;
   currentUser: 'cat' | 'bunny';
 }
-
-const categoryEmoji: Record<Wish['category'], string> = {
-  Вкусняшка: '🍕',
-  Путешествие: '✈️',
-  Вещь: '👕',
-  'Фильм/Сериал': '🎬',
-  Игра: '🎮',
-  Другое: '🎁',
-  Активность: '🏃‍♂️',
-};
-
-const platformGradients: Record<string, { gradient: string; textColor: string }> = {
-  wildberries: { gradient: 'bg-gradient-to-r from-purple-600 to-pink-500', textColor: 'text-white' },
-  ozon: { gradient: 'bg-gradient-to-r from-blue-600 to-blue-300', textColor: 'text-white' },
-  market: { gradient: 'bg-gradient-to-r from-yellow-400 to-yellow-200', textColor: 'text-black' },
-};
 
 export default function WishCard({ wish, onComplete, onUncomplete, currentUser }: WishCardProps) {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
@@ -50,24 +37,6 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
       onUncomplete(wish.id);
     }
     setIsConfirmModalOpen(false);
-  };
-
-  const formatDate = (date: Date) => {
-    const months = [
-      'Январь',
-      'Февраль',
-      'Март',
-      'Апрель',
-      'Май',
-      'Июнь',
-      'Июль',
-      'Август',
-      'Сентябрь',
-      'Октябрь',
-      'Ноябрь',
-      'Декабрь',
-    ];
-    return `${months[date.getMonth()]} ${date.getFullYear()}`;
   };
 
   return (
