@@ -1,12 +1,10 @@
-import Image from 'next/image';
-
 import { useState } from 'react';
+import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Wish } from '@/types/wish';
-
 import ConfirmModal from './ConfirmModal';
 
 interface WishCardProps {
@@ -23,6 +21,7 @@ const categoryEmoji: Record<Wish['category'], string> = {
   'Фильм/Сериал': '🎬',
   Игра: '🎮',
   Другое: '🎁',
+  Активность: '🏃‍♂️',
 };
 
 const platformGradients: Record<string, { gradient: string; textColor: string }> = {
@@ -79,15 +78,15 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
       <div className="p-4 flex-grow flex flex-col">
         <h3 className="text-lg font-semibold mb-2">{wish.title}</h3>
         <div className="flex flex-wrap gap-2 mb-2">
-          {wish.price === undefined ? (
+          {wish.price === undefined && wish.category !== 'Активность' ? (
             <Badge variant="secondary" className="bg-green-100 text-green-800">
               Free
             </Badge>
-          ) : (
+          ) : wish.price !== undefined ? (
             <Badge variant="secondary" className="bg-blue-100 text-blue-800">
               {wish.price} RUB
             </Badge>
-          )}
+          ) : null}
           <Badge
             variant={wish.priority === 'high' ? 'destructive' : wish.priority === 'medium' ? 'default' : 'secondary'}
           >

@@ -18,6 +18,7 @@ const categoryEmoji: Record<WishCategory, string> = {
   Вещь: '👕',
   'Фильм/Сериал': '🎬',
   Игра: '🎮',
+  Активность: '🏃‍♂️',
   Другое: '🎁',
 };
 
@@ -26,7 +27,7 @@ export default function AddWishModal({ isOpen, onClose, onAdd }: AddWishModalPro
   const [title, setTitle] = useState('');
   const [image, setImage] = useState('');
   const [price, setPrice] = useState('');
-  const [priority, setPriority] = useState<'low' | 'medium' | 'high'>('medium');
+  const [priority, setPriority] = useState<'low' | 'medium' | 'high' | ''>('');
   const [platform, setPlatform] = useState<'wildberries' | 'ozon' | 'market' | 'other' | null>(null);
   const [comment, setComment] = useState('');
   const [author, setAuthor] = useState<'cat' | 'bunny'>('cat');
@@ -40,7 +41,7 @@ export default function AddWishModal({ isOpen, onClose, onAdd }: AddWishModalPro
       title,
       image,
       price: price ? Number(price) : undefined,
-      priority,
+      priority: priority || 'medium',
       platform: platform || undefined,
       comment,
       author,
@@ -55,15 +56,21 @@ export default function AddWishModal({ isOpen, onClose, onAdd }: AddWishModalPro
     setTitle('');
     setImage('');
     setPrice('');
-    setPriority('medium');
+    setPriority('');
     setPlatform(null);
     setComment('');
     setAuthor('cat');
     setLink('');
   };
 
-  const showPriceField = category !== 'Фильм/Сериал' && category !== 'Путешествие';
+  const showPriceField = category !== 'Фильм/Сериал' && category !== 'Путешествие' && category !== 'Активность';
   const showPlatformField = category === 'Вещь' || category === 'Вкусняшка' || category === 'Другое';
+
+  const sortedCategories = Object.entries(categoryEmoji).sort(([a], [b]) => {
+    if (a === 'Другое') return 1;
+    if (b === 'Другое') return -1;
+    return a.localeCompare(b);
+  });
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -77,7 +84,7 @@ export default function AddWishModal({ isOpen, onClose, onAdd }: AddWishModalPro
               <SelectValue placeholder="Выберите категорию" />
             </SelectTrigger>
             <SelectContent>
-              {Object.entries(categoryEmoji).map(([cat, emoji]) => (
+              {sortedCategories.map(([cat, emoji]) => (
                 <SelectItem key={cat} value={cat as WishCategory}>
                   {emoji} {cat}
                 </SelectItem>
@@ -98,7 +105,7 @@ export default function AddWishModal({ isOpen, onClose, onAdd }: AddWishModalPro
               )}
               <Select value={priority} onValueChange={(value: 'low' | 'medium' | 'high') => setPriority(value)}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Приоритет" />
+                  <SelectValue placeholder="Приоритетность желания" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="low">Низкий</SelectItem>
@@ -133,7 +140,7 @@ export default function AddWishModal({ isOpen, onClose, onAdd }: AddWishModalPro
                 </SelectContent>
               </Select>
               <Input
-                placeholder="Ссылка на товар (необязательно)"
+                placeholder="Ссылка на желание (необязательно)"
                 value={link}
                 onChange={(e) => setLink(e.target.value)}
               />

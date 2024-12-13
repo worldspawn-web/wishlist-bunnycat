@@ -1,4 +1,4 @@
-export type WishCategory = 'Вкусняшка' | 'Путешествие' | 'Вещь' | 'Фильм/Сериал' | 'Игра' | 'Другое';
+export type WishCategory = 'Вкусняшка' | 'Путешествие' | 'Вещь' | 'Фильм/Сериал' | 'Игра' | 'Другое' | 'Активность';
 
 export interface Wish {
   id: string;
