@@ -3,7 +3,10 @@
 import WishCard from '@/components/WishCard';
 import AddWishModal from '@/components/AddWishModal';
 import StatsPanel from '@/components/StatsPanel';
+import LogoutConfirmModal from '@/components/LogoutConfirmModal';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Wish, WishCategory, Stats } from '@/types/wish';
@@ -31,6 +34,7 @@ const categoryEmoji: Record<WishCategory, string> = {
   'Фильм/Сериал': '🎬',
   Игра: '🎮',
   Другое: '🎁',
+  Активность: '🏃‍♂️',
 };
 
 const initialStats: Stats = {
@@ -45,6 +49,18 @@ export default function Wishlist() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [stats, setStats] = useState<Stats>(initialStats);
   const [currentUser, setCurrentUser] = useState<'cat' | 'bunny'>('cat');
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log('Wishlist component mounted');
+    return () => console.log('Wishlist component unmounted');
+  }, []);
+
+  useEffect(() => {
+    console.log('isLoading changed:', isLoading);
+  }, [isLoading]);
 
   useEffect(() => {
     updateStats();
@@ -92,12 +108,37 @@ export default function Wishlist() {
     updateStats();
   };
 
+  const handleLogout = () => {
+    setIsLogoutModalOpen(true);
+  };
+
+  const confirmLogout = async () => {
+    setIsLogoutModalOpen(false);
+    setIsLoading(true);
+    console.log('Starting logout');
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // Имитация задержки
+      await router.push('/');
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      console.log('Logout complete');
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
+      {isLoading && <LoadingSpinner />}
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-3xl font-bold">Список желаний 🐈‍⬛🐰</h1>
-          <Button onClick={() => setIsAddModalOpen(true)}>Добавить желание</Button>
+          <div className="flex space-x-2">
+            <Button onClick={() => setIsAddModalOpen(true)}>Добавить желание</Button>
+            <Button variant="outline" onClick={handleLogout}>
+              Сменить аккаунт
+            </Button>
+          </div>
         </div>
         <div className="flex mb-4">
           <div className="w-1/4 pr-4">
@@ -163,6 +204,11 @@ export default function Wishlist() {
         </div>
       </div>
       <AddWishModal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onAdd={addWish} />
+      <LogoutConfirmModal
+        isOpen={isLogoutModalOpen}
+        onClose={() => setIsLogoutModalOpen(false)}
+        onConfirm={confirmLogout}
+      />
     </div>
   );
 }
