@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Wish, Stats } from '@/types/wish';
+import { Wish } from '@/types/wish';
+import { Stats } from '@/types/stats';
 
 const initialWishes: Wish[] = [
   {
@@ -28,8 +29,6 @@ export function useWishlist() {
 
   useEffect(() => {
     updateStats();
-    // TODO: think about another way
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wishes]);
 
   const updateStats = () => {
