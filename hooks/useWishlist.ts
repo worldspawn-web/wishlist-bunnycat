@@ -28,6 +28,8 @@ export function useWishlist() {
 
   useEffect(() => {
     updateStats();
+    // TODO: think about another way
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wishes]);
 
   const updateStats = () => {
