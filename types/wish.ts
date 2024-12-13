@@ -15,13 +15,3 @@ export interface Wish {
   createdAt: Date;
   completedBy?: 'cat' | 'bunny';
 }
-
-export interface UserStats {
-  completedWishes: number;
-  completedLastMonth: number;
-}
-
-export interface Stats {
-  cat: UserStats;
-  bunny: UserStats;
-}

@@ -1,8 +1,4 @@
-import { Stats } from '@/types/wish';
-
-interface StatsPanelProps {
-  stats: Stats;
-}
+import { StatsPanelProps } from '@/types/components';
 
 export default function StatsPanel({ stats }: StatsPanelProps) {
   return (

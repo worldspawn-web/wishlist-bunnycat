@@ -5,17 +5,10 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Wish } from '@/types/wish';
+import { WishCardProps } from '@/types/components';
 import { categoryEmoji } from '@/constants/categoryEmoji';
 import { platformGradients } from '@/constants/platformGradients';
 import { formatDate } from '@/utils/dateUtils';
-
-interface WishCardProps {
-  wish: Wish;
-  onComplete: (id: string, completedBy: 'cat' | 'bunny') => void;
-  onUncomplete: (id: string) => void;
-  currentUser: 'cat' | 'bunny';
-}
 
 export default function WishCard({ wish, onComplete, onUncomplete, currentUser }: WishCardProps) {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
