@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -8,7 +9,7 @@ import { Wish, WishCategory } from '@/types/wish';
 import { AddWishModalProps } from '@/types/modal';
 import { categoryEmoji } from '@/constants/categoryEmoji';
 
-export default function AddWishModal({ isOpen, onClose, onAdd }: AddWishModalProps) {
+export const AddWishModal: React.FC<AddWishModalProps> = ({ isOpen, onClose, onAdd }) => {
   const [category, setCategory] = useState<WishCategory | ''>('');
   const [title, setTitle] = useState('');
   const [image, setImage] = useState('');
@@ -137,4 +138,4 @@ export default function AddWishModal({ isOpen, onClose, onAdd }: AddWishModalPro
       </DialogContent>
     </Dialog>
   );
-}
+};

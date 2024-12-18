@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import AnimatedBackground from '@/components/AnimatedBackground';
-import LoadingSpinner from '@/components/LoadingSpinner';
+import { LoadingSpinner } from '@/components/LoadingSpinner';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';

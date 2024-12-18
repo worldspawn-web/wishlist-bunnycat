@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Wish } from '@/types/wish';
-import { Stats } from '@/types/stats';
+import { Wish, Stats } from '@/types';
 
 const initialWishes: Wish[] = [
   {
