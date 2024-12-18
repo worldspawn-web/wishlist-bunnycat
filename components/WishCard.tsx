@@ -1,16 +1,16 @@
-import React from 'react';
-import { useState } from 'react';
 import Image from 'next/image';
+import ConfirmModal from './ConfirmModal';
+import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Wish, WishCardProps } from '@/types';
-import { ConfirmModal } from '@/components';
-import { categoryEmoji, platformGradients } from '@/constants';
-import { formatDate } from '@/utils';
+import { WishCardProps } from '@/types/components';
+import { categoryEmoji } from '@/constants/categoryEmoji';
+import { platformGradients } from '@/constants/platformGradients';
+import { formatDate } from '@/utils/dateUtils';
 
-export const WishCard: React.FC<WishCardProps> = ({ wish, onComplete, onUncomplete, currentUser }) => {
+export default function WishCard({ wish, onComplete, onUncomplete, currentUser }: WishCardProps) {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [modalAction, setModalAction] = useState<'complete' | 'uncomplete'>('complete');
 
@@ -116,4 +116,4 @@ export const WishCard: React.FC<WishCardProps> = ({ wish, onComplete, onUncomple
       />
     </div>
   );
-};
+}

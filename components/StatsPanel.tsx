@@ -1,7 +1,6 @@
-import React from 'react';
 import { StatsPanelProps } from '@/types/components';
 
-export const StatsPanel: React.FC<StatsPanelProps> = ({ stats }) => {
+export default function StatsPanel({ stats }: StatsPanelProps) {
   return (
     <div className="bg-white rounded-lg shadow-md p-4 mt-4">
       <h2 className="text-xl font-semibold mb-4">Статистика</h2>
@@ -31,4 +30,4 @@ export const StatsPanel: React.FC<StatsPanelProps> = ({ stats }) => {
       </div>
     </div>
   );
-};
+}

@@ -1,13 +1,17 @@
 'use client';
 
+import WishCard from '@/components/WishCard';
+import AddWishModal from '@/components/AddWishModal';
+import StatsPanel from '@/components/StatsPanel';
+import LogoutConfirmModal from '@/components/LogoutConfirmModal';
+import LoadingSpinner from '@/components/LoadingSpinner';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { WishCard, AddWishModal, LogoutConfirmModal, LoadingSpinner, StatsPanel } from '@/components';
-import { useWishlist } from '@/hooks';
-import { WishCategory } from '@/types';
-import { categoryEmoji } from '@/constants';
+import { useWishlist } from '@/hooks/useWishlist';
+import { WishCategory } from '@/types/wish';
+import { categoryEmoji } from '@/constants/categoryEmoji';
 
 export default function Wishlist() {
   const { wishes, stats, addWish, completeWish, uncompleteWish } = useWishlist();
