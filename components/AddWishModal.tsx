@@ -5,22 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Wish, WishCategory } from '@/types/wish';
-
-interface AddWishModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onAdd: (wish: Wish) => void;
-}
-
-const categoryEmoji: Record<WishCategory, string> = {
-  Вкусняшка: '🍕',
-  Путешествие: '✈️',
-  Вещь: '👕',
-  'Фильм/Сериал': '🎬',
-  Игра: '🎮',
-  Активность: '🏃‍♂️',
-  Другое: '🎁',
-};
+import { AddWishModalProps } from '@/types/modal';
+import { categoryEmoji } from '@/constants/categoryEmoji';
 
 export default function AddWishModal({ isOpen, onClose, onAdd }: AddWishModalProps) {
   const [category, setCategory] = useState<WishCategory | ''>('');

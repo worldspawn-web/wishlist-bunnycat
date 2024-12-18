@@ -1,13 +1,6 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-
-interface ConfirmModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-  title: string;
-  message: string;
-}
+import { ConfirmModalProps } from '@/types/modal';
 
 export default function ConfirmModal({ isOpen, onClose, onConfirm, title, message }: ConfirmModalProps) {
   return (
