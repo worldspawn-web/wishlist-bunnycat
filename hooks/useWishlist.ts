@@ -1,37 +1,29 @@
 import { useState, useEffect } from 'react';
-import { Wish } from '@/types/wish';
-import { Stats } from '@/types/stats';
-
-const initialWishes: Wish[] = [
-  {
-    id: '1',
-    title: 'Завести кота (Тест)',
-    image:
-      'https://img05.rl0.ru/afisha/e1000x500i/daily.afisha.ru/uploads/images/4/ca/4ca125c0ba6fd4a29e6ea9732ffe68b0.jpg',
-    priority: 'high',
-    author: 'cat',
-    link: '',
-    completed: false,
-    category: 'Другое',
-    comment: 'Давно пора.',
-    createdAt: new Date(),
-  },
-];
-
-const initialStats: Stats = {
-  cat: { completedWishes: 0, completedLastMonth: 0 },
-  bunny: { completedWishes: 0, completedLastMonth: 0 },
-};
+import { Wish, Stats } from '@/types';
+import prisma from '@/lib/prisma';
 
 export function useWishlist() {
-  const [wishes, setWishes] = useState<Wish[]>(initialWishes);
-  const [stats, setStats] = useState<Stats>(initialStats);
+  const [wishes, setWishes] = useState<Wish[]>([]);
+  const [stats, setStats] = useState<Stats>({
+    cat: { completedWishes: 0, completedLastMonth: 0 },
+    bunny: { completedWishes: 0, completedLastMonth: 0 },
+  });
+
+  useEffect(() => {
+    fetchWishes();
+  }, []);
 
   useEffect(() => {
     updateStats();
   }, [wishes]);
 
+  const fetchWishes = async () => {
+    const fetchedWishes = await prisma.wish.findMany();
+    setWishes(fetchedWishes);
+  };
+
   const updateStats = () => {
+    // debug
     const now = new Date();
     const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
 
@@ -52,16 +44,27 @@ export function useWishlist() {
     setStats(newStats);
   };
 
-  const addWish = (newWish: Wish) => {
-    setWishes([...wishes, { ...newWish, createdAt: new Date() }]);
+  const addWish = async (newWish: Omit<Wish, 'id' | 'createdAt'>) => {
+    const createdWish = await prisma.wish.create({
+      data: newWish,
+    });
+    setWishes([...wishes, createdWish]);
   };
 
-  const completeWish = (id: string, completedBy: 'cat' | 'bunny') => {
-    setWishes(wishes.map((wish) => (wish.id === id ? { ...wish, completed: true, completedBy } : wish)));
+  const completeWish = async (id: string, completedBy: 'cat' | 'bunny') => {
+    await prisma.wish.update({
+      where: { id },
+      data: { completed: true, completedBy },
+    });
+    await fetchWishes();
   };
 
-  const uncompleteWish = (id: string) => {
-    setWishes(wishes.map((wish) => (wish.id === id ? { ...wish, completed: false, completedBy: undefined } : wish)));
+  const uncompleteWish = async (id: string) => {
+    await prisma.wish.update({
+      where: { id },
+      data: { completed: false, completedBy: null },
+    });
+    await fetchWishes();
   };
 
   return { wishes, stats, addWish, completeWish, uncompleteWish };

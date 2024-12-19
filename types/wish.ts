@@ -1,5 +1,3 @@
-export type WishCategory = 'Вкусняшка' | 'Путешествие' | 'Вещь' | 'Фильм/Сериал' | 'Игра' | 'Другое' | 'Активность';
-
 export interface Wish {
   id: string;
   title: string;
@@ -9,7 +7,7 @@ export interface Wish {
   platform?: 'wildberries' | 'ozon' | 'market' | 'other';
   comment?: string;
   author: 'cat' | 'bunny';
-  link: string;
+  link?: string;
   completed: boolean;
   category: WishCategory;
   createdAt: Date;
