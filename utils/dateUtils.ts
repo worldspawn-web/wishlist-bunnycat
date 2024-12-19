@@ -1,4 +1,11 @@
-export function formatDate(date: Date): string {
+export function formatDate(dateInput: Date | string): string {
+  const date = dateInput instanceof Date ? dateInput : new Date(dateInput);
+
+  if (isNaN(date.getTime())) {
+    console.error('Invalid date:', dateInput);
+    return 'Недопустимая дата';
+  }
+
   const months = [
     'Январь',
     'Февраль',
@@ -13,5 +20,6 @@ export function formatDate(date: Date): string {
     'Ноябрь',
     'Декабрь',
   ];
+
   return `${months[date.getMonth()]} ${date.getFullYear()}`;
 }
