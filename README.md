@@ -2,6 +2,8 @@
 
 # Wishlist 🐰🐈‍⬛
 
+</div>
+
 ## Features
 
 ```
@@ -12,7 +14,7 @@
 - PostgreSQL + Prisma Database
 ```
 
-### Auth Page:
+## Auth Page:
 
 <img src="./public/authpage.gif"/>
 
@@ -27,8 +29,6 @@
 ### Stats:
 
 <img src="./public/stats.png" />
-
-</div>
 
 ## How to deploy on your machine:
 
