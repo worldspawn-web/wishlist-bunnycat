@@ -1,25 +1,34 @@
 import { useState, useEffect } from 'react';
 import { Wish, Stats } from '@/types';
-import prisma from '@/lib/prisma';
 
-export function useWishlist() {
-  const [wishes, setWishes] = useState<Wish[]>([]);
+export function useWishlist(initialWishes: Wish[] = []) {
+  const [wishes, setWishes] = useState<Wish[]>(initialWishes);
   const [stats, setStats] = useState<Stats>({
     cat: { completedWishes: 0, completedLastMonth: 0 },
     bunny: { completedWishes: 0, completedLastMonth: 0 },
   });
 
   useEffect(() => {
-    fetchWishes();
-  }, []);
+    if (initialWishes.length === 0) {
+      fetchWishes();
+    }
+  }, [initialWishes]);
 
   useEffect(() => {
     updateStats();
   }, [wishes]);
 
   const fetchWishes = async () => {
-    const fetchedWishes = await prisma.wish.findMany();
-    setWishes(fetchedWishes);
+    try {
+      const response = await fetch('/api/wishes');
+      if (!response.ok) {
+        throw new Error('Failed to fetch wishes');
+      }
+      const fetchedWishes = await response.json();
+      setWishes(fetchedWishes);
+    } catch (error) {
+      console.error('Error fetching wishes:', error);
+    }
   };
 
   const updateStats = () => {
@@ -45,26 +54,58 @@ export function useWishlist() {
   };
 
   const addWish = async (newWish: Omit<Wish, 'id' | 'createdAt'>) => {
-    const createdWish = await prisma.wish.create({
-      data: newWish,
-    });
-    setWishes([...wishes, createdWish]);
+    try {
+      const response = await fetch('/api/wishes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newWish),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to add wish');
+      }
+      const createdWish = await response.json();
+      setWishes([...wishes, createdWish]);
+    } catch (error) {
+      console.error('Error adding wish:', error);
+    }
   };
 
   const completeWish = async (id: string, completedBy: 'cat' | 'bunny') => {
-    await prisma.wish.update({
-      where: { id },
-      data: { completed: true, completedBy },
-    });
-    await fetchWishes();
+    try {
+      const response = await fetch(`/api/wishes/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ completed: true, completedBy }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to complete wish');
+      }
+      await fetchWishes();
+    } catch (error) {
+      console.error('Error completing wish:', error);
+    }
   };
 
   const uncompleteWish = async (id: string) => {
-    await prisma.wish.update({
-      where: { id },
-      data: { completed: false, completedBy: null },
-    });
-    await fetchWishes();
+    try {
+      const response = await fetch(`/api/wishes/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ completed: false, completedBy: null }),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to uncomplete wish');
+      }
+      await fetchWishes();
+    } catch (error) {
+      console.error('Error uncompleting wish:', error);
+    }
   };
 
   return { wishes, stats, addWish, completeWish, uncompleteWish };
