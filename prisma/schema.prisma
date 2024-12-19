@@ -27,4 +27,6 @@ model Wish {
   category    String
   createdAt   DateTime @default(now())
   completedBy String?
+  completedAt DateTime?
 }
+
