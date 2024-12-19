@@ -12,3 +12,19 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Wish {
+  id          String   @id @default(uuid())
+  title       String
+  image       String
+  price       Int?
+  priority    String
+  platform    String?
+  comment     String?
+  author      String
+  link        String?
+  completed   Boolean  @default(false)
+  category    String
+  createdAt   DateTime @default(now())
+  completedBy String?
+}
