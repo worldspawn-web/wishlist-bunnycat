@@ -63,12 +63,14 @@ export function useWishlist(initialWishes: Wish[] = []) {
         body: JSON.stringify(newWish),
       });
       if (!response.ok) {
-        throw new Error('Failed to add wish');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to add wish');
       }
       const createdWish = await response.json();
       setWishes([...wishes, createdWish]);
     } catch (error) {
       console.error('Error adding wish:', error);
+      throw error; // Перебрасываем ошибку, чтобы ее можно было обработать в компоненте
     }
   };
 
