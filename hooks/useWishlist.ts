@@ -32,7 +32,6 @@ export function useWishlist(initialWishes: Wish[] = []) {
   };
 
   const updateStats = () => {
-    // debug
     const now = new Date();
     const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
 
@@ -44,7 +43,7 @@ export function useWishlist(initialWishes: Wish[] = []) {
     wishes.forEach((wish) => {
       if (wish.completed && wish.completedBy && wish.author !== wish.completedBy) {
         newStats[wish.completedBy].completedWishes++;
-        if (new Date(wish.createdAt) >= lastMonth) {
+        if (wish.completedAt && new Date(wish.completedAt) >= lastMonth) {
           newStats[wish.completedBy].completedLastMonth++;
         }
       }
@@ -53,14 +52,18 @@ export function useWishlist(initialWishes: Wish[] = []) {
     setStats(newStats);
   };
 
-  const addWish = async (newWish: Omit<Wish, 'id' | 'createdAt'>) => {
+  const addWish = async (newWish: Omit<Wish, 'id' | 'createdAt' | 'completedAt'>) => {
     try {
+      const wishWithDate = {
+        ...newWish,
+        createdAt: new Date().toISOString(),
+      };
       const response = await fetch('/api/wishes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(newWish),
+        body: JSON.stringify(wishWithDate),
       });
       if (!response.ok) {
         const errorData = await response.json();
@@ -70,18 +73,23 @@ export function useWishlist(initialWishes: Wish[] = []) {
       setWishes([...wishes, createdWish]);
     } catch (error) {
       console.error('Error adding wish:', error);
-      throw error; // Перебрасываем ошибку, чтобы ее можно было обработать в компоненте
+      throw error;
     }
   };
 
   const completeWish = async (id: string, completedBy: 'cat' | 'bunny') => {
     try {
+      const wishToComplete = wishes.find((wish) => wish.id === id);
+      if (!wishToComplete || wishToComplete.author === completedBy) {
+        throw new Error('Cannot complete own wish');
+      }
+
       const response = await fetch(`/api/wishes/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ completed: true, completedBy }),
+        body: JSON.stringify({ completed: true, completedBy, completedAt: new Date().toISOString() }),
       });
       if (!response.ok) {
         throw new Error('Failed to complete wish');
@@ -99,7 +107,7 @@ export function useWishlist(initialWishes: Wish[] = []) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ completed: false, completedBy: null }),
+        body: JSON.stringify({ completed: false, completedBy: null, completedAt: null }),
       });
       if (!response.ok) {
         throw new Error('Failed to uncomplete wish');

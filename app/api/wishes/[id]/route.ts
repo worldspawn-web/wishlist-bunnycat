@@ -6,7 +6,10 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     const data = await request.json();
     const wish = await prisma.wish.update({
       where: { id: params.id },
-      data,
+      data: {
+        ...data,
+        completedAt: data.completed ? new Date() : null,
+      },
     });
     return NextResponse.json(wish);
   } catch (error) {
