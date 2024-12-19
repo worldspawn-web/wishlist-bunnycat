@@ -2,7 +2,31 @@
 
 # Wishlist 🐰🐈‍⬛
 
+## Features
+
+```
+- Wishlist System
+- Author & Category filters
+- Simple Authorization
+- Simple Points and Statistics System
+- PostgreSQL + Prisma Database
+```
+
+### Auth Page:
+
 <img src="./public/authpage.gif"/>
+
+### Wish Cards:
+
+<img src="./public/wishes.png" />
+
+### Wish Categories:
+
+<img src="./public/category.gif" />
+
+### Stats:
+
+<img src="./public/stats.png" />
 
 </div>
 
