@@ -25,12 +25,18 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
 
   const handleConfirm = () => {
     if (modalAction === 'complete') {
-      onComplete(wish.id, currentUser);
+      if (!isOwnWish) {
+        onComplete(wish.id, currentUser);
+      } else {
+        alert('Вы не можете выполнить свое собственное желание!');
+      }
     } else {
       onUncomplete(wish.id);
     }
     setIsConfirmModalOpen(false);
   };
+
+  const isOwnWish = wish.author === currentUser;
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
@@ -99,7 +105,21 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
                 {!wish.link && <TooltipContent>Солнышко не указало ссылку :(</TooltipContent>}
               </Tooltip>
             </TooltipProvider>
-            <Checkbox id={`completed-${wish.id}`} checked={wish.completed} onCheckedChange={handleCheckboxChange} />
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className="inline-block">
+                    <Checkbox
+                      id={`completed-${wish.id}`}
+                      checked={wish.completed}
+                      onCheckedChange={handleCheckboxChange}
+                      disabled={isOwnWish}
+                    />
+                  </span>
+                </TooltipTrigger>
+                {isOwnWish && <TooltipContent>Нельзя выполнить собственное желание</TooltipContent>}
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </div>
       </div>
