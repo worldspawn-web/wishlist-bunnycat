@@ -80,8 +80,8 @@ export function useWishlist(initialWishes: Wish[] = []) {
   const completeWish = async (id: string, completedBy: 'cat' | 'bunny') => {
     try {
       const wishToComplete = wishes.find((wish) => wish.id === id);
-      if (!wishToComplete || wishToComplete.author === completedBy) {
-        throw new Error('Cannot complete own wish');
+      if (!wishToComplete) {
+        throw new Error('Wish not found');
       }
 
       const response = await fetch(`/api/wishes/${id}`, {
@@ -89,7 +89,13 @@ export function useWishlist(initialWishes: Wish[] = []) {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ completed: true, completedBy, completedAt: new Date().toISOString() }),
+        body: JSON.stringify({
+          completed: true,
+          completedBy,
+          completedAt: new Date().toISOString(),
+          // Если желание выполняется его автором, не обновляем completedBy
+          ...(wishToComplete.author === completedBy ? {} : { completedBy }),
+        }),
       });
       if (!response.ok) {
         throw new Error('Failed to complete wish');

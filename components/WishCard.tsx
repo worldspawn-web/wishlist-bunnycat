@@ -25,11 +25,7 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
 
   const handleConfirm = () => {
     if (modalAction === 'complete') {
-      if (!isOwnWish) {
-        onComplete(wish.id, currentUser);
-      } else {
-        alert('Вы не можете выполнить свое собственное желание!');
-      }
+      onComplete(wish.id, currentUser);
     } else {
       onUncomplete(wish.id);
     }
@@ -113,11 +109,10 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
                       id={`completed-${wish.id}`}
                       checked={wish.completed}
                       onCheckedChange={handleCheckboxChange}
-                      disabled={isOwnWish}
                     />
                   </span>
                 </TooltipTrigger>
-                {isOwnWish && <TooltipContent>Нельзя выполнить собственное желание</TooltipContent>}
+                {isOwnWish && <TooltipContent>Выполнение собственного желания не принесет баллов</TooltipContent>}
               </Tooltip>
             </TooltipProvider>
           </div>
