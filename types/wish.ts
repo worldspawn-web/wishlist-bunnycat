@@ -12,4 +12,7 @@ export interface Wish {
   category: WishCategory;
   createdAt: Date;
   completedBy?: 'cat' | 'bunny';
+  completedAt?: Date;
 }
+
+export type WishCategory = 'Вкусняшка' | 'Путешествие' | 'Вещь' | 'Фильм/Сериал' | 'Игра' | 'Другое' | 'Активность';
