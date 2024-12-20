@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useWishlist } from '@/hooks';
+import { categoryEmoji } from '@/constants/categoryEmoji';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import StatsPanel from '@/components/StatsPanel';
 import WishCard from '@/components/WishCard';
 import AddWishModal from '@/components/AddWishModal';
 import LogoutConfirmModal from '@/components/LogoutConfirmModal';
-import { categoryEmoji } from '@/constants/categoryEmoji';
 
 interface WishlistClientProps {
   initialWishes: Wish[];

@@ -1,7 +1,7 @@
+import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import Link from 'next/link';
 import AnimatedBackground from '@/components/AnimatedBackground';
-import { Button } from '@/components/ui/button';
 
 export default function Home() {
   return (
