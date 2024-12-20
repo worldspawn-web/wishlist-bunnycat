@@ -42,15 +42,15 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
       <div className="p-4 flex-grow flex flex-col">
         <h3 className="text-lg font-semibold mb-2">{wish.title}</h3>
         <div className="flex flex-wrap gap-2 mb-2">
-          {wish.price === undefined && wish.category !== 'Активность' ? (
+          {wish.price === null || wish.price === 0 ? (
             <Badge variant="secondary" className="bg-green-100 text-green-800">
               Free
             </Badge>
-          ) : wish.price !== undefined ? (
+          ) : (
             <Badge variant="secondary" className="bg-blue-100 text-blue-800">
               {wish.price} RUB
             </Badge>
-          ) : null}
+          )}
           <Badge
             variant={wish.priority === 'high' ? 'destructive' : wish.priority === 'medium' ? 'default' : 'secondary'}
           >
