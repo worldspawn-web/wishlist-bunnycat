@@ -1,5 +1,6 @@
 export const platformGradients: Record<string, { gradient: string; textColor: string }> = {
-  wildberries: { gradient: 'bg-gradient-to-r from-purple-600 to-pink-500', textColor: 'text-white' },
-  ozon: { gradient: 'bg-gradient-to-r from-blue-600 to-blue-300', textColor: 'text-white' },
-  market: { gradient: 'bg-gradient-to-r from-yellow-400 to-yellow-200', textColor: 'text-black' },
+  wildberries: { gradient: 'linear-gradient(to right, #9333ea, #db2777)', textColor: 'white' },
+  ozon: { gradient: 'linear-gradient(to right, #2563eb, #60a5fa)', textColor: 'white' },
+  market: { gradient: 'linear-gradient(to right, #facc15, #fef08a)', textColor: 'black' },
+  other: { gradient: 'linear-gradient(to right, #9ca3af, #e5e7eb)', textColor: 'black' },
 };

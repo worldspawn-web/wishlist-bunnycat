@@ -34,6 +34,17 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
 
   const isOwnWish = wish.author === currentUser;
 
+  const getPlatformStyle = (platform: string) => {
+    const style = platformGradients[platform] || {
+      gradient: 'linear-gradient(to right, #6b7280, #9ca3af)',
+      textColor: 'white',
+    };
+    return {
+      background: style.gradient,
+      color: style.textColor,
+    };
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
       <div className="h-48 overflow-hidden">
@@ -60,11 +71,9 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
             {categoryEmoji[wish.category]} {wish.category}
           </Badge>
         </div>
-        {wish.platform && platformGradients[wish.platform] && (
+        {wish.platform && (
           <div className="flex flex-wrap gap-2 mb-2">
-            <Badge
-              className={`${platformGradients[wish.platform].gradient} ${platformGradients[wish.platform].textColor}`}
-            >
+            <Badge style={getPlatformStyle(wish.platform)} className="border-0">
               {wish.platform === 'market'
                 ? 'Яндекс.Маркет'
                 : wish.platform === 'wildberries'
