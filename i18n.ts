@@ -8,7 +8,7 @@ export type Locale = (typeof locales)[number];
 
 export default getRequestConfig(async () => {
   return {
-    messages: (await import('./messages/ru.json')).default,
+    messages: (await import('./locales/ru.json')).default,
     locale: 'ru' as Locale,
   };
 });
