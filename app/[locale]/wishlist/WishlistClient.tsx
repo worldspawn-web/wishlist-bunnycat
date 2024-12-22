@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from '@/i18n';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useWishlist } from '@/hooks';
@@ -11,6 +11,7 @@ import StatsPanel from '@/components/StatsPanel';
 import WishCard from '@/components/WishCard';
 import AddWishModal from '@/components/AddWishModal';
 import LogoutConfirmModal from '@/components/LogoutConfirmModal';
+import { useTranslations } from 'next-intl';
 
 interface WishlistClientProps {
   initialWishes: Wish[];
@@ -25,6 +26,7 @@ const WishlistClient: React.FC<WishlistClientProps> = ({ initialWishes }) => {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+  const t = useTranslations();
 
   const filteredWishes = wishes.filter((wish) => {
     if (authorFilter === 'completed') return wish.completed;
@@ -42,7 +44,7 @@ const WishlistClient: React.FC<WishlistClientProps> = ({ initialWishes }) => {
     setIsLoading(true);
     console.log('Starting logout');
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000)); // Имитация задержки
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       await router.push('/');
     } catch (error) {
       console.error('Logout error:', error);
@@ -57,27 +59,27 @@ const WishlistClient: React.FC<WishlistClientProps> = ({ initialWishes }) => {
       {isLoading && <LoadingSpinner />}
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-3xl font-bold">Список желаний 🐈‍⬛🐰</h1>
+          <h1 className="text-3xl font-bold">{t('common.wishlist')} 🐈‍⬛🐰</h1>
           <div className="flex space-x-2">
-            <Button onClick={() => setIsAddModalOpen(true)}>Добавить желание</Button>
+            <Button onClick={() => setIsAddModalOpen(true)}>{t('wishlist.addWish')}</Button>
             <Button variant="outline" onClick={handleLogout}>
-              Сменить аккаунт
+              {t('wishlist.changeAccount')}
             </Button>
           </div>
         </div>
         <div className="flex mb-4">
           <div className="w-1/4 pr-4">
-            <h2 className="text-xl font-semibold mb-2">Фильтры</h2>
+            <h2 className="text-xl font-semibold mb-2">{t('wishlist.filters')}</h2>
             <div className="space-y-2">
               <Select value={categoryFilter} onValueChange={(value: WishCategory | 'all') => setCategoryFilter(value)}>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Выберите категорию" />
+                  <SelectValue placeholder={t('wishlist.allCategories')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Все категории</SelectItem>
+                  <SelectItem value="all">{t('wishlist.allCategories')}</SelectItem>
                   {Object.entries(categoryEmoji).map(([category, emoji]) => (
                     <SelectItem key={category} value={category as WishCategory}>
-                      {emoji} {category}
+                      {emoji} {t(`categories.${category}`)}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -87,28 +89,28 @@ const WishlistClient: React.FC<WishlistClientProps> = ({ initialWishes }) => {
                 onClick={() => setAuthorFilter('all')}
                 className="w-full"
               >
-                Все
+                {t('wishlist.all')}
               </Button>
               <Button
                 variant={authorFilter === 'cat' ? 'default' : 'outline'}
                 onClick={() => setAuthorFilter('cat')}
                 className="w-full"
               >
-                Кот
+                {t('common.cat')}
               </Button>
               <Button
                 variant={authorFilter === 'bunny' ? 'default' : 'outline'}
                 onClick={() => setAuthorFilter('bunny')}
                 className="w-full"
               >
-                Зайка
+                {t('common.bunny')}
               </Button>
               <Button
                 variant={authorFilter === 'completed' ? 'default' : 'outline'}
                 onClick={() => setAuthorFilter('completed')}
                 className="w-full bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-900"
               >
-                Выполнено
+                {t('wishlist.completed')}
               </Button>
             </div>
             <StatsPanel stats={stats} />
