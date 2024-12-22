@@ -4,7 +4,7 @@ import Image from 'next/image';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { useState, useEffect } from 'react';
-import { useRouter } from '@/i18n'; // Импортируем из нашего i18n.ts
+import { useRouter } from '@/i18n';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useTranslations } from 'next-intl';
@@ -62,15 +62,12 @@ export default function Auth({ params }: { params: { type: string } }) {
           height={128}
           className="mb-8"
         />
-        <h1 className="text-4xl font-bold mb-8 text-white">
-          {t('auth.enterPassword', { animal: type === 'cat' ? t('common.cat') : t('common.bunny') })}
-        </h1>
         <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
           <Input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            placeholder={t('auth.enterPassword', { animal: '' })}
+            placeholder={t('auth.enterPassword')}
             className="w-64"
           />
           <Button type="submit" disabled={isLoading}>

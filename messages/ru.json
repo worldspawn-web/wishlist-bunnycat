@@ -10,7 +10,7 @@
     "cancel": "Отмена"
   },
   "auth": {
-    "enterPassword": "Введите пароль для {animal}",
+    "enterPassword": "Введите пароль",
     "invalidPassword": "Неверный пароль"
   },
   "wishlist": {
