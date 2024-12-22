@@ -6,12 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useWishlist } from '@/hooks';
 import { categoryEmoji } from '@/constants/categoryEmoji';
+import { useTranslations } from 'next-intl';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import StatsPanel from '@/components/StatsPanel';
 import WishCard from '@/components/WishCard';
 import AddWishModal from '@/components/AddWishModal';
 import LogoutConfirmModal from '@/components/LogoutConfirmModal';
-import { useTranslations } from 'next-intl';
 
 interface WishlistClientProps {
   initialWishes: Wish[];
