@@ -9,10 +9,12 @@ import { WishCardProps } from '@/types/components';
 import { categoryEmoji } from '@/constants/categoryEmoji';
 import { platformGradients } from '@/constants/platformGradients';
 import { formatDate } from '@/utils/dateUtils';
+import { useTranslations } from 'next-intl';
 
 export default function WishCard({ wish, onComplete, onUncomplete, currentUser }: WishCardProps) {
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [modalAction, setModalAction] = useState<'complete' | 'uncomplete'>('complete');
+  const t = useTranslations();
 
   const handleCheckboxChange = () => {
     if (wish.completed) {
@@ -55,7 +57,7 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
         <div className="flex flex-wrap gap-2 mb-2">
           {wish.price === null || wish.price === 0 ? (
             <Badge variant="secondary" className="bg-green-100 text-green-800">
-              Free
+              {t('wishlist.free')}
             </Badge>
           ) : (
             <Badge variant="secondary" className="bg-blue-100 text-blue-800">
@@ -65,22 +67,16 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
           <Badge
             variant={wish.priority === 'high' ? 'destructive' : wish.priority === 'medium' ? 'default' : 'secondary'}
           >
-            {wish.priority === 'high' ? 'Высокий' : wish.priority === 'medium' ? 'Средний' : 'Низкий'}
+            {t(`wishlist.priority.${wish.priority}`)}
           </Badge>
           <Badge variant="outline">
-            {categoryEmoji[wish.category]} {wish.category}
+            {categoryEmoji[wish.category]} {t(`categories.${wish.category}`)}
           </Badge>
         </div>
         {wish.platform && (
           <div className="flex flex-wrap gap-2 mb-2">
             <Badge style={getPlatformStyle(wish.platform)} className="border-0">
-              {wish.platform === 'market'
-                ? 'Яндекс.Маркет'
-                : wish.platform === 'wildberries'
-                ? 'Wildberries'
-                : wish.platform === 'ozon'
-                ? 'Ozon'
-                : wish.platform}
+              {t(`platforms.${wish.platform}`)}
             </Badge>
           </div>
         )}
@@ -90,8 +86,12 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
           </div>
         )}
         <div className="mt-auto">
-          <p className="text-sm text-gray-500 mb-1">Автор: {wish.author === 'cat' ? 'Кот' : 'Зайка'}</p>
-          <p className="text-sm text-gray-500 mb-2">Создано: {formatDate(wish.createdAt)}</p>
+          <p className="text-sm text-gray-500 mb-1">
+            {t('wishlist.author')}: {t(`common.${wish.author}`)}
+          </p>
+          <p className="text-sm text-gray-500 mb-2">
+            {t('wishlist.created')}: {formatDate(wish.createdAt)}
+          </p>
           <div className="flex items-center justify-between">
             <TooltipProvider>
               <Tooltip>
@@ -103,11 +103,11 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
                       onClick={() => wish.link && window.open(wish.link, '_blank', 'noopener,noreferrer')}
                       disabled={!wish.link}
                     >
-                      Исполнить желание
+                      {t('wishlist.fulfillWish')}
                     </Button>
                   </span>
                 </TooltipTrigger>
-                {!wish.link && <TooltipContent>Солнышко не указало ссылку :(</TooltipContent>}
+                {!wish.link && <TooltipContent>{t('wishlist.noLink')}</TooltipContent>}
               </Tooltip>
             </TooltipProvider>
             <TooltipProvider>
@@ -121,7 +121,7 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
                     />
                   </span>
                 </TooltipTrigger>
-                {isOwnWish && <TooltipContent>Выполнение собственного желания не принесет баллов</TooltipContent>}
+                {isOwnWish && <TooltipContent>{t('wishlist.ownWishWarning')}</TooltipContent>}
               </Tooltip>
             </TooltipProvider>
           </div>
@@ -131,12 +131,8 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
         isOpen={isConfirmModalOpen}
         onClose={() => setIsConfirmModalOpen(false)}
         onConfirm={handleConfirm}
-        title="Подтверждение"
-        message={
-          modalAction === 'complete'
-            ? 'Вы уверены, что желание выполнено?'
-            : 'Вы уверены, что хотите вернуть желание в общий список?'
-        }
+        title={t('common.confirm')}
+        message={modalAction === 'complete' ? t('wishlist.confirmCompletion') : t('wishlist.confirmUncompletion')}
       />
     </div>
   );
