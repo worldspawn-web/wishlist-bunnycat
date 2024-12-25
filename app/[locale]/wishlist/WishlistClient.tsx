@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useWishlist } from '@/hooks';
 import { categoryEmoji } from '@/constants/categoryEmoji';
 import { useTranslations } from 'next-intl';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import StatsPanel from '@/components/StatsPanel';
 import WishCard from '@/components/WishCard';
@@ -55,12 +56,13 @@ const WishlistClient: React.FC<WishlistClientProps> = ({ initialWishes }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-background text-foreground">
       {isLoading && <LoadingSpinner />}
       <div className="container mx-auto p-4">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-3xl font-bold">{t('common.wishlist')} 🐈‍⬛🐰</h1>
-          <div className="flex space-x-2">
+          <div className="flex space-x-2 items-center">
+            <ThemeToggle />
             <Button onClick={() => setIsAddModalOpen(true)}>{t('wishlist.addWish')}</Button>
             <Button variant="outline" onClick={handleLogout}>
               {t('wishlist.changeAccount')}
@@ -108,7 +110,7 @@ const WishlistClient: React.FC<WishlistClientProps> = ({ initialWishes }) => {
               <Button
                 variant={authorFilter === 'completed' ? 'default' : 'outline'}
                 onClick={() => setAuthorFilter('completed')}
-                className="w-full bg-gray-200 text-gray-700 hover:bg-gray-300 hover:text-gray-900"
+                className="w-full bg-green-100 text-green-800 hover:bg-green-200 dark:bg-green-900 dark:text-green-100 dark:hover:bg-green-800 transition-colors duration-200"
               >
                 {t('wishlist.completed')}
               </Button>
