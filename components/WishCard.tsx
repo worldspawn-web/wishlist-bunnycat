@@ -124,8 +124,30 @@ export default function WishCard({ wish, onComplete, onUncomplete, currentUser }
                       id={`completed-${wish.id}`}
                       checked={wish.completed}
                       onCheckedChange={handleCheckboxChange}
-                      className="dark:border-gray-400 dark:text-gray-300"
-                    />
+                      className={`
+                        border-2 border-gray-300 dark:border-gray-600
+                        ${wish.completed ? 'bg-green-800 dark:bg-green-600' : 'bg-white dark:bg-gray-800'}
+                        rounded-sm w-5 h-5
+                        checked:text-green-100 dark:checked:text-gray-900
+                        focus:ring-green-800 dark:focus:ring-green-600
+                        transition-colors duration-200
+                      `}
+                    >
+                      {wish.completed && (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 24 24"
+                          fill="currentColor"
+                          className="w-4 h-4 text-green-100 dark:text-gray-900"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      )}
+                    </Checkbox>
                   </span>
                 </TooltipTrigger>
                 {isOwnWish && (
