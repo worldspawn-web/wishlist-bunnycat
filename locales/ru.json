@@ -11,7 +11,8 @@
   },
   "auth": {
     "enterPassword": "Введите пароль",
-    "invalidPassword": "Неверный пароль"
+    "invalidPassword": "Неверный пароль",
+    "tryAgain": "Попробуйте ещё раз"
   },
   "wishlist": {
     "addWish": "Добавить желание",
