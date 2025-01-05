@@ -93,8 +93,6 @@ export function useWishlist(initialWishes: Wish[] = []) {
           completed: true,
           completedBy,
           completedAt: new Date().toISOString(),
-          // Если желание выполняется его автором, не обновляем completedBy
-          ...(wishToComplete.author === completedBy ? {} : { completedBy }),
         }),
       });
       if (!response.ok) {
