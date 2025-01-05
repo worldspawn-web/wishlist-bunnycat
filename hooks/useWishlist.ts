@@ -41,10 +41,11 @@ export function useWishlist(initialWishes: Wish[] = []) {
     };
 
     wishes.forEach((wish) => {
-      if (wish.completed && wish.completedBy && wish.author !== wish.completedBy) {
-        newStats[wish.completedBy].completedWishes++;
+      if (wish.completed) {
+        const completedFor = wish.author === 'cat' ? 'bunny' : 'cat';
+        newStats[completedFor].completedWishes++;
         if (wish.completedAt && new Date(wish.completedAt) >= lastMonth) {
-          newStats[wish.completedBy].completedLastMonth++;
+          newStats[completedFor].completedLastMonth++;
         }
       }
     });
