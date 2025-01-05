@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "npx playwright test",
+    "test-ui": "npx playwright test --ui"
   },
   "dependencies": {
     "@prisma/client": "^6.1.0",
